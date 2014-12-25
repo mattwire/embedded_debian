@@ -1,0 +1,5 @@
+#!/bin/bash
+apt-get clean
+rm -f /var/log/* > /dev/null 2>&1
+history -wc
+rm /root/.bash_history

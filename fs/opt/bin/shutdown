@@ -1,0 +1,31 @@
+#!/bin/sh
+# description: Start or stop the fhem server
+# Added by Alex Peuchert
+
+### BEGIN INIT INFO
+# Provides:             readonlyroot_shutdown
+# Required-Start:       $local_fs
+# Required-Stop:        $local_fs
+# Default-Start:        
+# Default-Stop:         0 6
+# Short-Description:    Readonly root shutdown functions
+### END INIT INFO
+
+case "$1" in
+'start')
+        ;;
+'stop')
+	# Check if root is mounted read/write and execute cleanup scripts if so
+	mount | grep 'on / type' | grep 'rw' > /dev/null
+	if [ $? -eq 0 ]; then
+        	echo "Cleaning up..."
+		/opt/bin/clean-rw
+	fi
+        RETVAL=$?
+        ;;
+*)
+        echo "Usage: $0 { stop }"
+        RETVAL=1
+        ;;
+esac
+exit $RETVAL
