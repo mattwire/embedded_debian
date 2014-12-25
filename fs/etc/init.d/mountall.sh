@@ -61,7 +61,7 @@ do_start() {
 
 	# Execute swapon command again, in case we want to swap to
 	# a file on a now mounted filesystem.
-	swaponagain 'swapfile'
+	#swaponagain 'swapfile'
 
 	# Remount tmpfs filesystems; with increased VM after swapon,
 	# the size limits may be adjusted.

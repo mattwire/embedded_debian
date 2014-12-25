@@ -22,9 +22,9 @@ case "$1" in
 	# allow cleaning of directories masked by mounts while the
 	# system was previously running, which would otherwise prevent
 	# them being cleaned.
-	rm -f /tmp/.clean /lib/init/rw/.clean /run/.clean /run/lock/.clean
+	#rm -f /tmp/.clean /lib/init/rw/.clean /run/.clean /run/lock/.clean
 
-	clean_all
+	#clean_all
 	exit $?
 	;;
   restart|reload|force-reload)

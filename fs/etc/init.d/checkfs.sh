@@ -13,8 +13,11 @@
 # Include /usr/bin in path to find on_ac_power if /usr/ is on the root
 # partition.
 PATH=/sbin:/bin:/usr/bin
-FSCK_LOGFILE=/var/log/fsck/checkfs
-[ "$FSCKFIX" ] || FSCKFIX=no
+FSCK_LOGFILE=/tmp/checkfs.log
+#[ "$FSCKFIX" ] || FSCKFIX=no
+FSCKFIX=yes
+VERBOSE=no
+
 . /lib/init/vars.sh
 
 . /lib/lsb/init-functions
@@ -106,7 +109,7 @@ Continuing with system boot in 5 seconds."
 			elif [ "$FSCKCODE" -gt 1 ]
 			then
 				log_action_end_msg 1 "code $FSCKCODE"
-				handle_failed_fsck
+				#handle_failed_fsck
 			else
 				log_action_end_msg 0
 			fi
@@ -124,7 +127,8 @@ Continuing with system boot in 5 seconds."
 				log_warning_msg "File system check was interrupted by user"
 			elif [ "$FSCKCODE" -gt 1 ]
 			then
-				handle_failed_fsck
+				log_action_end_msg 1 "code $FSCKCODE"
+				#handle_failed_fsck
 			else
 				log_success_msg "Done checking file systems. 
 A log is being saved in ${FSCK_LOGFILE} if that location is writable."
