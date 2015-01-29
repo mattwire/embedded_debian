@@ -1,0 +1,25 @@
+#!/bin/sh
+# Try to bring service up when an interface comes up
+
+# Don't bother to do anything for lo.
+if [ "$IFACE" = lo ]; then
+    exit 0
+fi
+
+# Only run from ifup.
+if [ "$MODE" != start ]; then
+    exit 0
+fi
+
+# we only care about inet and inet6.
+case $ADDRFAM in
+    inet|inet6|NetworkManager)
+        ;;  
+    *)  
+        exit 0
+        ;;  
+esac
+
+invoke-rc.d supervisor restart
+
+exit 0
