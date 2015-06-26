@@ -1,0 +1,47 @@
+#!/bin/bash
+
+conf=config/fhem.cfg
+port=7072
+startcmd="perl fhem.pl $conf"
+
+cd /opt/fhem
+
+trap "perl fhem.pl $port \"shutdown\"" EXIT
+
+echo "FHEM startup:"
+
+echo "Checking mounts"
+mountpoint /mnt/rwdata -q
+if [[ $? -ne 0 ]]; then
+    echo "/mnt/rwdata not mounted. Exiting!"
+    exit
+fi
+
+echo "Changing ownership of files"
+chown fhem /mnt/rwdata/* -R
+chown fhem /opt/fhem/* -R
+chown fhem /opt/ozwcp/* -R
+
+echo "Checking for network connection"
+nonetwork=1
+while [ $nonetwork -eq 1 ]; do
+    ifconfig  | grep 'inet addr:'| grep -v '127.0.0.1' > /dev/null
+    nonetwork=$?
+    sleep 1
+done
+
+# Kill existing processes
+ps -ef | grep -v "grep $startcmd" | grep "$startcmd" > /dev/null
+if [ $? -eq 0 ]; then
+	echo "Waiting 10 seconds before killing existing fhem processes"
+	sleep 10
+fi
+echo "Killing all existing fhem processes"
+killall "perl" -u fhem -q
+
+# Start fhem
+echo -n "Starting fhem..."
+$startcmd
+echo "Done"
+
+while ps -ef | grep -v "grep $startcmd" | grep "$startcmd" > /dev/null; do sleep 30; done

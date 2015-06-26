@@ -1,0 +1,14 @@
+#!/bin/bash
+
+startcmd="socat pty,link=/dev/zwave,b115200,raw TCP:mercurypi:3001"
+
+cd /tmp
+
+echo "Starting socat..."
+
+# Start and change permissions
+$startcmd &
+sleep 10
+chown fhem /dev/zwave
+
+while ps -ef | grep -v "grep $startcmd" | grep "$startcmd" > /dev/null; do sleep 30; done

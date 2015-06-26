@@ -1,0 +1,14 @@
+#!/bin/bash
+
+startcmd="socat pty,link=/dev/rfxtrx,b38400,raw TCP:mercurypi:3003"
+
+cd /tmp
+
+echo "Starting socat..."
+
+# Start and change permissions
+$startcmd &
+sleep 10
+chown fhem /dev/rfxtrx
+
+while ps -ef | grep -v "grep $startcmd" | grep "$startcmd" > /dev/null; do sleep 30; done
