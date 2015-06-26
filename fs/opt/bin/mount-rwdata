@@ -1,0 +1,14 @@
+#!/bin/bash
+
+mnt=/mnt/rwdata
+dev=/dev/sda1
+
+# check device and then mount it
+while true; do
+    mountpoint $mnt -q
+    if [[ $? -ne 0 ]]; then
+        fsck -y $dev
+        mount -o noatime,sync $dev $mnt
+    fi
+    sleep 10
+done
