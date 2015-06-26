@@ -1,0 +1,11 @@
+# Aeon Labs Zwave Stick
+SUBSYSTEM=="tty", ACTION=="add", ATTRS{idVendor}=="10c4", ATTRS{idProduct}=="ea60", SYMLINK+="zwave"
+
+# CUL (LUFA USB to Serial Adapter Project) 
+SUBSYSTEM=="tty", ACTION=="add", ATTRS{idVendor}=="03eb", ATTRS{idProduct}=="204b", SYMLINK+="cul"
+
+# RFXCOM (FTDI)
+SUBSYSTEM=="tty", ACTION=="add", ATTRS{idVendor}=="0403", ATTRS{idProduct}=="6001", ATTRS{product}=="RFXtrx433", SYMLINK+="rfxtrx"
+
+# WeatherStationFSK
+SUBSYSTEM=="tty", ACTION=="add", ATTRS{idVendor}=="0403", ATTRS{idProduct}=="6001", ATTRS{product}=="FT232R USB UART", SYMLINK+="weatherstationfsk"
