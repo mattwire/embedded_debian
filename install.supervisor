@@ -1,0 +1,18 @@
+#!/bin/bash
+
+apt-get install supervisor
+
+echo -n "Installing config..."
+cp apps/supervisor/conf.d.dist /etc/supervisor/ -rf
+cp apps/supervisor/if-up.d.supervisor /etc/network/if-up.d/supervisor
+cp apps/supervisor/init.d.supervisor /etc/init.d/supervisor
+cp apps/supervisor/supervisord.conf /etc/supervisor/
+echo "Done"
+
+echo "Enabling supervisor..."
+insserv -d supervisor
+/etc/init.d/supervisor stop
+/etc/init.d/supervisor start
+echo "Done"
+
+echo "Now link any config in /etc/supervisor/conf.d.dist to conf.d that you require"
