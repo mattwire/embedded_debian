@@ -4,5 +4,5 @@ mount -o remount,rw /
 mount -o remount,rw /boot
 
 # Trigger remount ro after 1hour
-pgrep -f "/bin/bash ./mount-ro.delay1h" | xargs -I % -r -n1 /opt/bin/killtree % # Kill any existing mount-ro delay script
-nohup ./mount-ro.delay1h > /dev/null 2>&1 &
+pgrep -f "/bin/bash /opt/bin/mount-ro.delay1h" | xargs -I % -r -n1 /opt/bin/killtree % # Kill any existing mount-ro delay script
+nohup /opt/bin/mount-ro.delay1h > /dev/null 2>&1 &
