@@ -3,6 +3,8 @@
 mnt=/mnt/rwdata
 dev=/dev/sda1
 
+mkdir /mnt/rwdata > /dev/null
+
 # check device and then mount it
 while true; do
     mountpoint $mnt -q

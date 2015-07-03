@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# Wait for 1 hour then clean and remount ro.
+sleep 1h
+./clean-rw
+./mount-ro
