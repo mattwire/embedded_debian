@@ -1,0 +1,10 @@
+#!/bin/bash
+
+echo -n "Removing startup scripts..."
+insserv -r bootlogs
+insserv -r sudo
+insserv -r motd
+insserv -r alsa-utils
+insserv -r console-setup
+insserv -r fake-hwclock
+echo "Done"
