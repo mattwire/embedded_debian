@@ -1,0 +1,22 @@
+#!/bin/bash
+
+dev=/dev/zwave
+baud=115200
+remote=mercurypi:3001
+startcmd="socat pty,link=$dev,b$baud,raw,echo=0,wait-slave TCP:$remote"
+
+cd /tmp
+
+echo "Killing existing processes"
+pkill -f "$startcmd"
+
+echo -n "Starting socat..."
+
+# Start and change permissions
+$startcmd &
+sleep 10
+chown fhem $dev
+
+echo "OK"
+
+while ps -ef | grep -v "grep $startcmd" | grep "$startcmd" > /dev/null; do sleep 30; done
