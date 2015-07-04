@@ -37,7 +37,8 @@ if [ $? -eq 0 ]; then
 	sleep 10
 fi
 echo "Killing all existing fhem processes"
-pkill -f "$startcmd"
+pgrep -f "perl fhem.pl 7072 shutdown" | xargs -I % -r -n1 /opt/bin/killtree % # Kill any existing fhem instances
+pgrep -f "$startcmd" | xargs -I % -r -n1 /opt/bin/killtree % # Kill any existing fhem instances
 
 # Start fhem
 echo -n "Starting fhem..."
