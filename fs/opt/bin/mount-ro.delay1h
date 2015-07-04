@@ -2,5 +2,5 @@
 
 # Wait for 1 hour then clean and remount ro.
 sleep 1h
-./clean-rw
-./mount-ro
+/opt/bin/clean-rw
+/opt/bin/mount-ro
