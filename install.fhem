@@ -1,0 +1,11 @@
+#!/bin/bash
+
+echo -n "Installing config..."
+cp apps/fhem/fhem.init /etc/init.d/fhem
+echo "Done"
+
+echo "Enabling fhem..."
+insserv -d fhem
+/etc/init.d/fhem start
+echo "Done"
+

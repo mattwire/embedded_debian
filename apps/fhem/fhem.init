@@ -1,0 +1,81 @@
+#!/bin/sh
+# description: Start or stop the fhem server
+# Added by Alex Peuchert
+
+### BEGIN INIT INFO
+# Provides:             fhem.pl
+# Required-Start:       $local_fs $remote_fs
+# Required-Stop:        $local_fs $remote_fs
+# Default-Start:        2 3 4 5
+# Default-Stop:         0 1 6
+# Short-Description:    FHEM server
+### END INIT INFO
+
+port=7072
+conf=config/fhem.cfg
+
+stop() {
+    # Kill existing processes
+    ps -ef | grep -v "grep $startcmd" | grep "$startcmd" > /dev/null
+    if [ $? -eq 0 ]; then
+        cd /opt/fhem && perl fhem.pl $port "shutdown"        
+        echo "Waiting 10 seconds before killing existing fhem processes"
+        sleep 10
+    fi  
+    echo "Killing all existing fhem processes"
+    pgrep -f "perl fhem.pl 7072 shutdown" | xargs -I % -r -n1 /opt/bin/killtree % # Kill any existing fhem instances
+    pgrep -f "$startcmd" | xargs -I % -r -n1 /opt/bin/killtree % # Kill any existing fhem instances
+}
+
+case $1 in
+	start)
+        	echo "Starting fhem..."
+
+                echo "Checking mounts"
+                mountpoint /mnt/rwdata -q
+                if [[ $? -ne 0 ]]; then
+                    echo "/mnt/rwdata not mounted. Exiting!"
+                    exit
+                fi
+
+                echo "Changing ownership of files"
+                chown fhem /mnt/rwdata/* -R
+                chown fhem /opt/fhem/* -R
+                chown fhem /opt/ozwcp/* -R
+		
+                echo "Checking for network connection"
+                nonetwork=1
+                while [ $nonetwork -eq 1 ]; do
+                    ifconfig  | grep 'inet addr:'| grep -v '127.0.0.1' > /dev/null
+                    nonetwork=$?
+                    sleep 1
+                done
+
+                stop
+
+		# Start fhem
+	        cd /opt/fhem && perl fhem.pl $conf
+	        RETVAL=$?
+	        ;;
+	stop)
+	        echo "Stopping fhem..."
+                stop
+	        RETVAL=$?
+	        ;;
+	status)
+	        cnt=`ps -ef | grep "fhem.pl" | grep -v grep | wc -l`
+	        if [ "$cnt" -eq "0" ] ; then
+	                echo "fhem is not running"
+	        else
+	                echo "fhem is running"
+	        fi
+	        ;;
+	restart)
+		$0 stop && sleep 2 && $0 start
+		;;
+*)
+        echo "Usage: $0 { start | stop | status | restart }"
+        RETVAL=1
+        ;;
+esac
+exit $RETVAL
