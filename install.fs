@@ -22,3 +22,7 @@ ln -s /opt/bin/shutdown /etc/init.d/shutdown
 insserv -d shutdown
 echo "Done"
 
+echo -n "Restarting processes..."
+/etc/init.d/ntp restart
+echo "Done"
+
