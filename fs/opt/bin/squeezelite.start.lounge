@@ -1,0 +1,19 @@
+#!/bin/bash
+
+startcmd="/opt/squeezelite-armv6hf -p 90 -n Lounge -o sysdefault:CARD=ALSA -a 160:4:32:0 -m `cat /sys/class/net/eth0/address`"
+grepcmd="/opt/squeezelite-armv6hf -p 90 -n Lounge"
+
+cd /tmp
+
+echo "Killing existing processes"
+pkill -f "$grepcmd"
+
+echo -n "Starting..."
+
+# Start and change permissions
+$startcmd &
+sleep 10
+
+echo "OK"
+
+while ps -ef | grep -v "grep $grepcmd" | grep "$grepcmd" > /dev/null; do sleep 30; done
