@@ -13,12 +13,13 @@
 
 port=7072
 conf=config/fhem.cfg
+startcmd="perl fhem.pl $conf"
 
 stop() {
     # Kill existing processes
     ps -ef | grep -v "grep $startcmd" | grep "$startcmd" > /dev/null
     if [ $? -eq 0 ]; then
-        cd /opt/fhem && perl fhem.pl $port "shutdown"        
+        cd /opt/fhem && perl fhem.pl $port "shutdown" & 
         echo "Waiting 10 seconds before killing existing fhem processes"
         sleep 10
     fi  
@@ -33,7 +34,7 @@ case $1 in
 
                 echo "Checking mounts"
                 mountpoint /mnt/rwdata -q
-                if [[ $? -ne 0 ]]; then
+                if [ $? -ne 0 ]; then
                     echo "/mnt/rwdata not mounted. Exiting!"
                     exit
                 fi
@@ -54,6 +55,7 @@ case $1 in
                 stop
 
 		# Start fhem
+                echo "Starting fhem"
 	        cd /opt/fhem && perl fhem.pl $conf
 	        RETVAL=$?
 	        ;;
