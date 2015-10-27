@@ -14,6 +14,7 @@
 port=7072
 conf=config/fhem.cfg
 startcmd="perl fhem.pl $conf"
+rwdata=1
 
 stop() {
     # Kill existing processes
@@ -31,12 +32,13 @@ stop() {
 case $1 in
 	start)
         	echo "Starting fhem..."
-
-                echo "Checking mounts"
-                mountpoint /mnt/rwdata -q
-                if [ $? -ne 0 ]; then
-                    echo "/mnt/rwdata not mounted. Exiting!"
-                    exit
+                if [ $rwdata -eq 1 ]; then
+                    echo "Checking mounts"
+                    mountpoint /mnt/rwdata -q
+                    if [ $? -ne 0 ]; then
+                        echo "/mnt/rwdata not mounted. Exiting!"
+                        exit
+                    fi
                 fi
 
                 echo "Changing ownership of files"
