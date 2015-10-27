@@ -1,0 +1,19 @@
+#!/bin/bash
+
+apt-get update
+apt-get install -y curl
+curl -sL https://deb.nodesource.com/setup_0.12 | bash -
+apt-get install -y build-essential python-dev python-rpi.gpio nodejs
+
+npm install -g --unsafe-perm  node-red
+
+
+echo -n "Installing config..."
+cp apps/node-red/node-red.init /etc/init.d/node-red
+echo "Done"
+
+echo "Enabling monit..."
+insserv -d node-red
+/etc/init.d/node-red stop
+/etc/init.d/node-red start
+echo "Done"
