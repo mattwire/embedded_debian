@@ -10,6 +10,7 @@ npm install -g --unsafe-perm  node-red
 
 echo -n "Installing config..."
 cp apps/node-red/node-red.init /etc/init.d/node-red
+cp apps/
 echo "Done"
 
 echo "Enabling monit..."

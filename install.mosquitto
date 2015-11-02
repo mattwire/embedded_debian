@@ -1,7 +1,5 @@
 #!/bin/bash
 
-conf=/etc/monit
-
 wget -qO - http://repo.mosquitto.org/debian/mosquitto-repo.gpg.key | apt-key add -
 wget http://repo.mosquitto.org/debian/mosquitto-jessie.list -O /etc/apt/sources.list.d/mosquitto-jessie.list
 
@@ -12,7 +10,7 @@ cp apps/mosquitto/mosquitto.conf /etc/mosquitto/mosquitto.conf
 cp apps/mosquitto/init.d.mosquitto /etc/init.d/mosquitto
 echo "Done"
 
-echo "Enabling monit..."
+echo "Enabling mosquitto..."
 insserv -d mosquitto
 /etc/init.d/mosquitto stop
 /etc/init.d/mosquitto start
