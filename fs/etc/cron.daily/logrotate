@@ -1,0 +1,8 @@
+#!/bin/sh
+test -x /usr/sbin/logrotate || exit 0
+
+if [ ! -f /tmp/logrotate/status ]; then
+  mkdir -p /tmp/logrotate
+  touch /tmp/logrotate/status
+fi
+/usr/sbin/logrotate /etc/logrotate.conf
