@@ -1,5 +1,18 @@
 #!/bin/bash
 
+apt-get update && apt-get -y install libdevice-serialport-perl liburi-perl libjson-perl libmath-round-perl usbutils dfu-programmer git
+useradd --system --home /opt/fhem --gid dialout --shell /bin/false fhem -u 1005
+
+git clone https://github.com/mattwire/fhem-mirror.git /opt/fhem-mirror
+cd /opt/fhem-mirror
+git checkout MJW
+ln -s /opt/fhem-mirror/fhem /opt/fhem
+chown fhem:dialout /opt/fhem/* -R
+mkdir /opt/fhem/config
+mkdir /opt/fhem/log
+
+cd ~/embedded_debian
+
 echo -n "Installing config..."
 cp apps/fhem/fhem.init /etc/init.d/fhem
 cp apps/fhem/fhem.logrotate /etc/logrotate.d/fhem
