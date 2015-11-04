@@ -1,0 +1,14 @@
+#!/bin/bash
+apt-get install logrotate && apt-get --purge remove exim*
+rm -rf /etc/logrotate.conf.d/*
+rm -f /etc/logrotate.conf
+rm -rf /etc/cron.weekly/*
+rm -rf /etc/cron.hourly/*
+rm -rf /etc/cron.monthly/*
+rm -rf /etc/cron.d/*
+rm -rf /etc/cron.daily/*
+rm -rf /var/lib/logrotate
+ln -s /tmp/logrotate /var/lib/logrotate
+
+cp fs/etc/logrotate.conf /etc/logrotate.conf
+cp fs/etc/cron.daily/logrotate /etc/cron.daily/logrotate
