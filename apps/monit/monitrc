@@ -34,7 +34,7 @@
 ## default the file is placed in $HOME/.monit.id.
 #
 # set idfile /var/.monit.id
-  set idfile /var/lib/monit/id
+  set idfile /tmp/monit/id
 #
 ## Set the location of the Monit state file which saves monitoring states
 ## on each cycle. By default the file is placed in $HOME/.monit.state. If
@@ -42,7 +42,7 @@
 ## the monitoring state across reboots. If it is on temporary filesystem, the
 ## state will be lost on reboot which may be convenient in some situations.
 #
-  set statefile /var/run/monit.state
+  set statefile /tmp/monit/monit.state
 #
 ## Set the list of mail servers for alert delivery. Multiple servers may be 
 ## specified using a comma separator. If the first mail server fails, Monit 
@@ -65,7 +65,7 @@ set alert root@mrwire.co.uk but not on { action, instance }
 ## available in the back end filesystem).
 #
   set eventqueue
-      basedir /var/run/monit/events # set the base directory where events will be stored
+      basedir /tmp/monit/events # set the base directory where events will be stored
       slots 100                     # optionally limit the queue size
 #
 #
