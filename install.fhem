@@ -2,6 +2,7 @@
 
 echo -n "Installing config..."
 cp apps/fhem/fhem.init /etc/init.d/fhem
+cp apps/fhem/fhem.logrotate /etc/logrotate.d/fhem
 echo "Done"
 
 echo "Enabling fhem..."

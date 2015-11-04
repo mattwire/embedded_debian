@@ -8,6 +8,7 @@ apt-get update && apt-get install mosquitto
 echo -n "Installing config..."
 cp apps/mosquitto/mosquitto.conf /etc/mosquitto/mosquitto.conf
 cp apps/mosquitto/init.d.mosquitto /etc/init.d/mosquitto
+rm -f /etc/logrotate.d/mosquitto
 echo "Done"
 
 echo "Enabling mosquitto..."

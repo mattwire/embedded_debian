@@ -1,0 +1,7 @@
+/opt/fhem/log/fhem.log {
+    missingok
+    weekly
+    copytruncate
+    rotate 5
+    compress
+  }

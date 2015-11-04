@@ -8,6 +8,7 @@ echo -n "Installing config..."
 cp apps/monit/conf.d.dist /etc/monit/ -rf
 cp apps/monit/monit.init /etc/init.d/monit
 cp apps/monit/monitrc /etc/monit/
+rm -f /etc/logrotate.d/monit
 echo "Done"
 
 echo -n "Enabling default configs..."
