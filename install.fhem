@@ -1,6 +1,6 @@
 #!/bin/bash
 
-apt-get update && apt-get -y install libdevice-serialport-perl liburi-perl libjson-perl libmath-round-perl usbutils dfu-programmer git
+apt-get update && apt-get -y install libdevice-serialport-perl liburi-perl libjson-perl libmath-round-perl libcrypt-rijndael-perl libnet-address-ip-local-perl libio-interface-perl usbutils dfu-programmer git
 useradd --system --home /opt/fhem --gid dialout --shell /bin/false fhem -u 1005
 
 git clone https://github.com/mattwire/fhem-mirror.git /opt/fhem-mirror
