@@ -1,0 +1,26 @@
+#!/bin/bash
+
+read -p "Make sure you have configured smtp server, username and password in install.postfix_sendonly.pl before continuing..."
+
+perl ./install.postfix_sendonly.pl
+
+echo -n "Configuring directories for readonly..."
+systemctl stop postfix.service
+
+if [ ! -d /var/mail.dist ]; then
+  mv /var/mail /var/mail.dist
+  rm -rf /var/mail.dist/*
+  ln -s /tmp/mail /var/mail
+fi
+if [ ! -d /var/spool/postfix.dist ]; then
+  mv /var/spool/postfix /var/spool/postfix.dist
+  ln -s /tmp/postfix/spool /var/spool/postfix
+fi
+if [ ! -d /var/lib/postfix.dist ]; then
+  mv /var/lib/postfix /var/lib/postfix.dist
+  rm -rf /var/lib/postfix.dist/*
+  ln -s /tmp/postfix/lib /var/lib/postfix
+fi
+
+echo "Done"
+
