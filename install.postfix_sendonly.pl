@@ -263,6 +263,14 @@ if($loginname && $loginpassword) {
        and die qq(failed to map generics : $!);
 }
 
+#------------------------------------------
+# Restart Postfix
+#------------------------------------------
+system('cp ./apps/postfix/init.d.postfix /etc/init.d/postfix');
+
+system('service postfix restart')
+    and die qq(problems restart Postfix : $!);
+    
 #-----------------------------------------
 # Write the aliases
 #-----------------------------------------
@@ -282,15 +290,6 @@ if( $adminuser && @adminmaps ){
         and die qq(failed calling newaliases : $!);
 }
 
-#------------------------------------------
-# Restart Postfix and end
-#------------------------------------------
-system('cp apps/postfix/init.d/postfix /etc/init.d/postfix');
-
-system('/etc/init.d/postfix restart')
-    and die qq(problems restart Postfix : $!);
-    
-    
 #------------------------------------------
 # Send an email
 #------------------------------------------
