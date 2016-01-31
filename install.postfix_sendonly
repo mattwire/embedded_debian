@@ -5,7 +5,7 @@ read -p "Make sure you have configured smtp server, username and password in ins
 perl ./install.postfix_sendonly.pl
 
 echo -n "Configuring directories for readonly..."
-systemctl stop postfix.service
+service postfix stop
 
 if [ ! -d /var/mail.dist ]; then
   mv /var/mail /var/mail.dist
@@ -24,3 +24,4 @@ fi
 
 echo "Done"
 
+service postfix start

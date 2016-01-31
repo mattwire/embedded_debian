@@ -165,6 +165,7 @@ my $aliases  = '/etc/aliases';
 my $mailname = qx(cat /etc/mailname);
 chomp($mailname);
 $mailname =~ s/[\s\r\n]//g;
+$mailname = $hostname if !$mailname;
 
 my $servername = $smtpserver;
 $servername =~ s/[\[\]]//g;
@@ -284,6 +285,7 @@ if( $adminuser && @adminmaps ){
 #------------------------------------------
 # Restart Postfix and end
 #------------------------------------------
+system('cp apps/postfix/init.d/postfix /etc/init.d/postfix');
 
 system('/etc/init.d/postfix restart')
     and die qq(problems restart Postfix : $!);
