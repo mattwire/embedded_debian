@@ -187,7 +187,7 @@ die 'run this script as root using sudo' if $<;
 
 system('apt-get -y update')
     and die 'failed to update package directories';
-system('apt-get -y install postfix')
+system('apt-get -y install postfix mailutils')
     and die 'failed to install postfix';
 
 #------------------------------------------
