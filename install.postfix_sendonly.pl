@@ -22,7 +22,7 @@ use warnings;
 # sudo perl setuppostfix.txt
 #----------------------------------------
 
-my $hostname = qx(/bin/hostname);
+my $hostname = qx(/bin/hostname -F /etc/hostname);
 chomp($hostname);
 $hostname =~ s/[\s\r\n]//g;
 

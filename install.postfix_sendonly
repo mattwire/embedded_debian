@@ -1,6 +1,16 @@
 #!/bin/bash
 
-read -p "Make sure you have configured smtp server, username and password in install.postfix_sendonly.pl before continuing..."
+read -p "Make sure you have configured hostname in /etc/hostname; smtp server, username and password in install.postfix_sendonly.pl before continuing..."
+
+if [ -L /var/mail ]; then
+  rm -f /var/mail
+fi
+if [ -L /var/spool/postfix ]; then
+  rm -f /var/spool/postfix
+fi
+if [ -L /var/lib/postfix ]; then
+  rm -f /var/lib/postfix
+fi
 
 perl ./install.postfix_sendonly.pl
 

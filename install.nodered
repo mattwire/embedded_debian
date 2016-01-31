@@ -1,0 +1,11 @@
+#!/bin/bash
+
+cd ~
+apt-get install unzip
+wget http://node-arm.herokuapp.com/node_latest_armhf.deb
+dpkg -i node_latest_armhf.deb
+apt-get install build-essential python-dev python-rpi.gpio
+
+npm install -g --unsafe-perm node-red
+
+npm install serialport
