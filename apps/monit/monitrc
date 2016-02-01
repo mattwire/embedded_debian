@@ -53,7 +53,10 @@
 #                backup.bar.baz port 10025,  # backup mailserver on port 10025
 #                localhost                   # fallback relay
 set mailserver localhost with timeout 5 seconds
-set mail-format { from: root@mrwire.co.uk }
+set mail-format {
+      from: monit@$HOST
+   subject: monit alert: $EVENT $SERVICE
+}
 set alert root@mrwire.co.uk but not on { action, instance }
 #
 #
