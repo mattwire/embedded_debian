@@ -14,7 +14,7 @@ echo "Done"
 echo -n "Enabling default configs..."
 ln -s $conf/conf.d.dist/system.conf $conf/conf.d/system.conf
 ln -s $conf/conf.d.dist/ntp.conf $conf/conf.d/ntp.conf
-ln -s $conf/conf.d.dist/nullmailer.conf $conf/conf.d/nullmailer.conf
+ln -s $conf/conf.d.dist/postfix.conf $conf/conf.d/postfix.conf
 ln -s $conf/conf.d.dist/sshd.conf $conf/conf.d/sshd.conf
 echo "Done"
 
