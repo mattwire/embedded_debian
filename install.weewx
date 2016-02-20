@@ -3,7 +3,7 @@
 apt-get update && apt-get -y install file libexpat1 libfreetype6 libjpeg8 liblcms1 libmagic1 mime-support python python-cheetah python-configobj python-imaging python-minimal python-serial python-usb python2.7 python2.7-minimal ftp python-pip
 
 echo -n "Installing weewx..."
-wget http://weewx.com/downloads/weewx_3.2.1-1_all.deb
+wget http://weewx.com/downloads/weewx_3.4.0-1_all.deb
 dpkg -i weewx_*.deb
 rm weewx_*.deb
 echo "Done"
