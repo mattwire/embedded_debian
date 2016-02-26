@@ -1,0 +1,19 @@
+#!/bin/bash
+
+apt-get update && apt-get install alsa-utils libasound2 libfaad2 libvorbisidec1 libflac8 libmad0 libmpg123-0
+
+echo -n "Installing config..."
+cp apps/squeezelite/init.d.squeezelite /etc/init.d/squeezelite
+cp apps/squeezelite/init.d.squeezelite.default /etc/default/squeezelite
+rm -f /opt/squeezelite*
+cp apps/squeezelite/squeezelite-armv6hf /opt/squeezelite-armv6hf
+ln -s /opt/squeezelite-armv6hf /opt/squeezelite
+echo "Done"
+
+echo "Enabling squeezelite..."
+insserv -d squeezelite
+/etc/init.d/squeezelite stop
+echo "Done"
+
+echo "Now make sure you configure /etc/default/squeezelite"
+echo

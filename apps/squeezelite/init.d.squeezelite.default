@@ -1,0 +1,5 @@
+SLMAC="`cat /sys/class/net/eth0/address`"
+SLDEVICE="sysdefault:CARD=ALSA"
+SLNAME="PLAYERNAME"
+SLBUFFER=160:4:32:0
+SLPRIO=90
