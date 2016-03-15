@@ -17,6 +17,13 @@ wee_extension --install weewx-mqtt-*.tgz
 rm weewx-mqtt-*.tgz
 echo "Done"
 
+echo -n "Installing skin mods..."
+wget https://github.com/mattwire/weatherstationfsk/raw/master/weewx/index.html.tmpl
+mv index.html.tmpl /etc/weewx/skins/Standard/
+wget https://github.com/mattwire/weatherstationfsk/raw/master/weewx/skin.conf
+mv skin.conf /etc/weewx/skins/Standard/
+echo "Done"
+
 echo -n "Installing config file..."
 wget https://github.com/mattwire/weatherstationfsk/raw/master/weewx/weewx.conf
 mv weewx.conf /etc/weewx/weewx.conf
