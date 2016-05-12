@@ -17,20 +17,29 @@ perl ./install.postfix_sendonly.pl
 echo -n "Configuring directories for readonly..."
 service postfix stop
 
+if [ ! -d /tmp/postfix ]; then
+  mkdir -p /tmp/postfix
+fi
+
 if [ ! -d /var/mail.dist ]; then
   mv /var/mail /var/mail.dist
   rm -rf /var/mail.dist/*
-  ln -s /tmp/mail /var/mail
 fi
+cp -a /var/mail.dist /tmp/mail
+ln -s /tmp/mail /var/mail
+
 if [ ! -d /var/spool/postfix.dist ]; then
   mv /var/spool/postfix /var/spool/postfix.dist
-  ln -s /tmp/postfix/spool /var/spool/postfix
 fi
+cp -a /var/spool/postfix.dist /tmp/postfix/spool
+ln -s /tmp/postfix/spool /var/spool/postfix
+
 if [ ! -d /var/lib/postfix.dist ]; then
   mv /var/lib/postfix /var/lib/postfix.dist
   rm -rf /var/lib/postfix.dist/*
-  ln -s /tmp/postfix/lib /var/lib/postfix
 fi
+cp -a /var/lib/postfix.dist /tmp/postfix/lib
+ln -s /tmp/postfix/lib /var/lib/postfix
 
 echo "Done"
 

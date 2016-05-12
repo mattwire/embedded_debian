@@ -22,7 +22,8 @@ use warnings;
 # sudo perl setuppostfix.txt
 #----------------------------------------
 
-my $hostname = qx(/bin/hostname -F /etc/hostname);
+qx(/bin/hostname -F /etc/hostname);
+my $hostname = qx(/bin/hostname);
 chomp($hostname);
 $hostname =~ s/[\s\r\n]//g;
 
@@ -268,6 +269,7 @@ if($loginname && $loginpassword) {
 #------------------------------------------
 system('cp ./apps/postfix/init.d.postfix /etc/init.d/postfix');
 
+system('systemctl daemon-reload');
 system('service postfix restart')
     and die qq(problems restart Postfix : $!);
     
