@@ -59,6 +59,7 @@ case "$1" in
             --exec $DAEMON --pidfile $PIDFILE --retry 30 \
             --oknodo || log_end_msg $?
                         log_end_msg 0
+             sleep 2 && pkill node-red
         ;;
         restart)
 			$0 stop
