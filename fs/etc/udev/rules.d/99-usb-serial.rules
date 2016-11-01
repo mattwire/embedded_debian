@@ -2,6 +2,7 @@
 SUBSYSTEM=="tty", ACTION=="add", ATTRS{idVendor}=="10c4", ATTRS{idProduct}=="ea60", SYMLINK+="zwave"
 
 # CUL (LUFA USB to Serial Adapter Project) 
+SUBSYSTEM=="usb", ACTION=="add", ATTRS{idVendor}=="03eb", ATTRS{idProduct}=="2ff4", RUN+="/usr/bin/dfu-programmer atmega32u4 reset"
 SUBSYSTEM=="tty", ACTION=="add", ATTRS{idVendor}=="03eb", ATTRS{idProduct}=="204b", SYMLINK+="cul"
 
 # RFXCOM (FTDI)
