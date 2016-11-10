@@ -1,4 +1,4 @@
-check process node-red with pidfile /tmp/node-red/node-red.pid
-   start program "/etc/init.d/node-red start"
-   stop program "/etc/init.d/node-red stop"
+check process nodered with pidfile /tmp/node-red/node-red.pid
+   start program "/bin/systemctl start nodered"
+   stop program "/bin/systemctl stop nodered"
    if failed port 1880 type tcp then restart
