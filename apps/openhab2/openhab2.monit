@@ -1,0 +1,5 @@
+check process openhab2 matching "/bin/sh /usr/share/openhab2/runtime/karaf/bin/karaf server"
+   start program "/bin/systemctl start openhab2"
+   stop program "/bin/systemctl stop openhab2"
+   if failed port 8080 type tcp then restart
+   if cpu > 50% for 2 cycles then restart

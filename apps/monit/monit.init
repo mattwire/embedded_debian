@@ -146,6 +146,7 @@ case "$1" in
     else
       log_end_msg 1
     fi
+    pkill monit
     ;;
   reload)
     log_daemon_msg "Reloading $DESC configuration" "$NAME"
