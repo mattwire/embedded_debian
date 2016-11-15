@@ -1,0 +1,39 @@
+---
+- hosts: openhab
+  remote_user: root
+  tasks:
+  - name: Mount rw
+    shell: /opt/bin/mount-rw -n
+  - name: Remove any apt installed openhab.
+    ignore_errors: yes
+    apt: name=openhab-* state=absent
+  - name: Ensure build dependencies are installed.
+    apt: "name={{ item }} state=installed"
+    with_items:
+      - oracle-java8-jdk
+
+  - name: Download openhab2 snapshot.
+    get_url:
+      url: "https://openhab.ci.cloudbees.com/job/openHAB-Distribution/lastSuccessfulBuild/artifact/distributions/openhab-offline/target/openhab2-offline-2.0.0-SNAPSHOT.deb"
+      dest: "{{ ansible_user_dir }}/openhab2-offline-2.0.0-SNAPSHOT.deb"
+      tmp_dest: "{{ ansible_user_dir }}"
+  - name: Install openhab2
+    apt: deb="{{ ansible_user_dir }}/openhab2-offline-2.0.0-SNAPSHOT.deb"
+    notify:
+    - restart openhab2
+  - name: Configure logging to syslog
+    copy: src=~/dev/embedded_debian/apps/openhab2/org.ops4j.pax.logging.cfg dest=/usr/share/openhab2/runtime/karaf/etc/org.ops4j.pax.logging.cfg owner=openhab group=openhab mode=0644
+    notify:
+    - restart openhab2
+  - name: Add monit config
+    copy: src=~/dev/embedded_debian/apps/openhab2/openhab2.monit dest=/etc/monit/conf.d/openhab2.conf owner=root group=root mode=0644
+    notify:
+    - reload monit
+  - name: Mount ro
+    shell: /opt/bin/mount-ro
+
+  handlers:
+    - name: restart openhab2
+      systemd: name=openhab2 state=restarted daemon_reload=yes enabled=yes
+    - name: reload monit
+      shell: /usr/bin/monit reload
