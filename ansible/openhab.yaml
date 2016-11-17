@@ -22,7 +22,7 @@
     notify:
     - restart openhab2
   - name: Configure logging to syslog
-    copy: src=~/dev/embedded_debian/apps/openhab2/org.ops4j.pax.logging.cfg dest=/usr/share/openhab2/runtime/karaf/etc/org.ops4j.pax.logging.cfg owner=openhab group=openhab mode=0644
+    copy: src=~/dev/embedded_debian/apps/openhab2/org.ops4j.pax.logging.cfg dest=/var/lib/openhab2/etc/org.ops4j.pax.logging.cfg owner=openhab group=openhab mode=0644
     notify:
     - restart openhab2
   - name: Add monit config
