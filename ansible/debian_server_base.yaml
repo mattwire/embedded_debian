@@ -1,0 +1,16 @@
+---
+# This does servers_virtual setup @ https://wiki.mjwconsult.co.uk/doku.php?id=systems:servers_virtual:20150506
+- hosts: debian_servers
+  remote_user: root
+  tasks:
+  - name: Install standard packages.
+    apt: "name={{ item }} state=installed"
+    with_items:
+      - vim
+      - acpi
+      - acpi-support-base
+  - shell: /bin/rm -f /etc/acpi/event/powerbtn
+  - shell: /bin/rm -rf /etc/ssh/ssh_host_*
+  - command: dpkg-reconfigure --frontend noninteractive openssh-server
+  - name: Schedule reboot in 1 minute to apply hostname etc.
+    command: /sbin/shutdown -r 1

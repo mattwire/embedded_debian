@@ -2,6 +2,11 @@
 - hosts: embedded
   remote_user: root
   tasks:
+  - file: path=/opt/bin state=directory recurse=yes
+  - copy: src=~/dev/embedded_debian/fs/opt/bin/mount-ro dest=/opt/bin/mount-ro owner=root group=root mode=0755
+  - copy: src=~/dev/embedded_debian/fs/opt/bin/mount-rw dest=/opt/bin/mount-rw owner=root group=root mode=0755
+  - copy: src=~/dev/embedded_debian/fs/opt/bin/mount-ro.delay1h dest=/opt/bin/mount-ro.delay1h owner=root group=root mode=0755
+  - copy: src=~/dev/embedded_debian/fs/opt/bin/clean-rw dest=/opt/bin/clean-rw owner=root group=root mode=0755
   - name: Mount rw
     shell: /opt/bin/mount-rw -n
   - name: Install standard packages.

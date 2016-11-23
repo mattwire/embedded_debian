@@ -14,13 +14,16 @@
 
   - name: Download openhab2 snapshot.
     get_url:
-      url: "https://openhab.ci.cloudbees.com/job/openHAB-Distribution/lastSuccessfulBuild/artifact/distributions/openhab-offline/target/openhab2-offline-2.0.0-SNAPSHOT.deb"
-      dest: "{{ ansible_user_dir }}/openhab2-offline-2.0.0-SNAPSHOT.deb"
+      url: "http://omv/shares/iso/software/openhab2-offline-2.0.0-SNAPSHOT-20161116_590.deb"
+      dest: "{{ ansible_user_dir }}/openhab2-offline-2.0.0-SNAPSHOT-20161116_590.deb"
       tmp_dest: "{{ ansible_user_dir }}"
   - name: Install openhab2
-    apt: deb="{{ ansible_user_dir }}/openhab2-offline-2.0.0-SNAPSHOT.deb"
+    apt: deb="{{ ansible_user_dir }}/openhab2-offline-2.0.0-SNAPSHOT-20161116_590.deb"
     notify:
     - restart openhab2
+  - name: Download openhab2 habpanel.
+    unarchive: src=http://omv/shares/iso/software/org.openhab.ui.habpanel.20161121.tar.gz dest=/usr/share/openhab2/runtime/system/org/openhab/ui remote_src=yes
+
   - name: Configure logging to syslog
     copy: src=~/dev/embedded_debian/apps/openhab2/org.ops4j.pax.logging.cfg dest=/var/lib/openhab2/etc/org.ops4j.pax.logging.cfg owner=openhab group=openhab mode=0644
     notify:
