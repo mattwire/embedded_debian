@@ -6,9 +6,9 @@
   tasks:
   - name: Mount rw
     shell: /opt/bin/mount-rw -n
-#  - name: Install package nodered
-#    apt: name=nodered state=latest update_cache=no
-#  - systemd: name=nodered enabled=yes
+  - name: Install package nodered
+    apt: name=nodered state=latest update_cache=no
+  - systemd: name=nodered enabled=yes
   - name: Ensure build dependencies are installed.
     apt: "name={{ item }} state=installed"
     with_items:
@@ -16,8 +16,8 @@
       - gcc
       - make
       - npm
-#  - name: Update nodejs and nodered
-#    shell: yes | update-nodejs-and-nodered
+  - name: Update nodejs and nodered
+    shell: yes | update-nodejs-and-nodered
   - name: Download nodered.service file.
       copy: src=~/dev/embedded_debian/apps/nodered/nodered.service dest=/lib/systemd/system/nodered.service owner=root group=root mode=0755
   - name: Download node-red-start.
@@ -40,12 +40,12 @@
       dest: "{{ ansible_user_dir }}"
       creates: "{{ ansible_user_dir }}/bcm2835-1.50/README"
       remote_src: yes
-#  - name: Build and install bcm2835 lib
-#    shell: cd {{ ansible_user_dir }}/bcm2835-1.50 && ./configure && make && make check && make install 
-#  - npm: name=node-dht-sensor path=/usr/lib/node_modules/node-red/node_modules
-#  - npm: name=node-red-contrib-dht-sensor path=/usr/lib/node_modules/node-red/node_modules
-#  - npm: name=node-red-node-emoncms path=/usr/lib/node_modules/node-red/node_modules
-#  - npm: name=node-red-contrib-collector path=/usr/lib/node_modules/node-red/node_modules
+  - name: Build and install bcm2835 lib
+    shell: cd {{ ansible_user_dir }}/bcm2835-1.50 && ./configure && make && make check && make install 
+  - npm: name=node-dht-sensor path=/usr/lib/node_modules/node-red/node_modules
+  - npm: name=node-red-contrib-dht-sensor path=/usr/lib/node_modules/node-red/node_modules
+  - npm: name=node-red-node-emoncms path=/usr/lib/node_modules/node-red/node_modules
+  - npm: name=node-red-contrib-collector path=/usr/lib/node_modules/node-red/node_modules
     notify:
     - restart nodered
   - name: Add monit config
@@ -57,7 +57,7 @@
 
   handlers:
     - name: restart nodered
-      systemd: state=restarted daemon_reload=yes name=nodered
+      systemd: state=restarted daemon_reload=yes name=nodered enabled=yes
     - name: reload monit
       shell: /usr/bin/monit reload
 
