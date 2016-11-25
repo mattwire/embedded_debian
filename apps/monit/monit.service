@@ -22,6 +22,7 @@
  [Service]
  Type=simple
  KillMode=process
+ ExecStartPre=/bin/mkdir -p /tmp/monit/
  ExecStart=/usr/bin/monit -I
  ExecStop=/usr/bin/monit quit
  ExecReload=/usr/bin/monit reload
