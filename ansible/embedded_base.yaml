@@ -10,7 +10,7 @@
   - name: Mount rw
     shell: /opt/bin/mount-rw -n
   - name: Install standard packages.
-    apt: "name={{ item }} state=installed"
+    apt: "name={{ item }} state=installed update_cache=yes"
     with_items:
       - vim
   - name: insert/update "bash rw indicator" configuation block in /etc/bash.bashrc
