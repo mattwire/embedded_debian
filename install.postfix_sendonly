@@ -44,3 +44,6 @@ ln -s /tmp/postfix/lib /var/lib/postfix
 echo "Done"
 
 service postfix start
+
+cp ./apps/postfix/postfix.monit /etc/monit/conf.d/postfix.conf
+systemctl restart monit
