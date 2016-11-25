@@ -28,6 +28,7 @@ if [ ! -d /tmp/postfix ]; then
   cp -a /var/lib/postfix.dist /tmp/postfix/lib
   cp -a /var/spool/postfix.dist /tmp/postfix/spool
   cp -a /var/mail.dist /tmp/mail
+  chown postfix:postfix /tmp/postfix -R
 fi
 
 # Defaults - don't touch, edit /etc/default/postfix

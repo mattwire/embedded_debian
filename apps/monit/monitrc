@@ -55,7 +55,7 @@
 set mailserver localhost with timeout 5 seconds
 set mail-format {
       from: monit@$HOST
-   subject: monit alert: $EVENT $SERVICE
+   subject: m@: $EVENT $SERVICE
 }
 set alert root@mrwire.co.uk but not on { action, instance }
 #

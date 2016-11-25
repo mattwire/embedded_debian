@@ -1,8 +1,13 @@
 #!/bin/bash
 
 mount -o remount,rw /
-mount -o remount,rw /boot
+
+if [[ "$1" = "-n" ]]; then
+  echo "Filesystem read/write. NOT resetting to RO"
+  exit 0
+fi
 
 # Trigger remount ro after 1hour
 pgrep -f "/bin/bash /opt/bin/mount-ro.delay1h" | xargs -I % -r -n1 /opt/bin/killtree % # Kill any existing mount-ro delay script
 nohup /opt/bin/mount-ro.delay1h > /dev/null 2>&1 &
+echo "Filesystem read/write. Resetting to RO after 1 hour"

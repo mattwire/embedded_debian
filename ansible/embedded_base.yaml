@@ -1,0 +1,37 @@
+---
+- hosts: embedded
+  remote_user: root
+  tasks:
+  - file: path=/opt/bin state=directory recurse=yes
+  - copy: src=~/dev/embedded_debian/fs/opt/bin/mount-ro dest=/opt/bin/mount-ro owner=root group=root mode=0755
+  - copy: src=~/dev/embedded_debian/fs/opt/bin/mount-rw dest=/opt/bin/mount-rw owner=root group=root mode=0755
+  - copy: src=~/dev/embedded_debian/fs/opt/bin/mount-ro.delay1h dest=/opt/bin/mount-ro.delay1h owner=root group=root mode=0755
+  - copy: src=~/dev/embedded_debian/fs/opt/bin/clean-rw dest=/opt/bin/clean-rw owner=root group=root mode=0755
+  - name: Mount rw
+    shell: /opt/bin/mount-rw -n
+  - name: Install standard packages.
+    apt: "name={{ item }} state=installed update_cache=yes"
+    with_items:
+      - vim
+  - name: insert/update "bash rw indicator" configuation block in /etc/bash.bashrc
+    blockinfile:
+      dest: /etc/bash.bashrc
+      block: |
+        # emonPi bash RW / RO prompt
+        # Thanks to Andy Taylor: https://community.openenergymonitor.org/t/increase-emonsd-pre-built-sd-ca$
+        
+        set_bash_prompt(){
+            fs_mode=$(mount | sed -n -e "s/^\/dev\/mmcblk0p2 on \/ .*(\(r[w|o]\).*/\1/p")
+        
+            if [ $(id -u) -eq 0 ];
+              then
+        	PS1='\[\033[01;31m\]\u@\h${fs_mode:+($fs_mode)}\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+              else
+        	PS1='\[\033[01;32m\]\u@\h${fs_mode:+($fs_mode)}\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+            fi
+        }
+        
+        # setup fancy prompt
+        PROMPT_COMMAND=set_bash_prompt
+  - name: Mount ro
+    shell: /opt/bin/mount-ro

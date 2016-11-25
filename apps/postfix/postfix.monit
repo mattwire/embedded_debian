@@ -1,4 +1,4 @@
-check process postfix with pidfile /tmp/postfix/spool/pid/master.pid
+check process postfix matching "/usr/lib/postfix/master"
    group mail
    start program = "/etc/init.d/postfix start"
    stop  program = "/etc/init.d/postfix stop"

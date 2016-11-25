@@ -1,0 +1,10 @@
+---
+# Setup unattended-upgrades
+- hosts: debian_servers
+  remote_user: root
+  tasks:
+  - name: Install packages.
+    apt: "name={{ item }} state=installed"
+    with_items:
+      - unattended-upgrades
+  - copy: src=~/dev/embedded_debian/fs/etc/apt/apt.conf.d/50unattended-upgrades dest=/etc/apt/apt.conf.d/50unattended-upgrades owner=root group=root mode=0755
