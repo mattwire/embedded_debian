@@ -4,6 +4,6 @@ rm -f /var/log/* > /dev/null 2>&1
 history -wc
 rm /root/.bash_history
 
-chown fhem /mnt/rwdata/* -R
+chown fhem /mnt/rwdata/fhem -R
 chown fhem /opt/fhem/* -R
 chown fhem /opt/ozwcp/* -R
