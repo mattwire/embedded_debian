@@ -9,25 +9,20 @@
   - file: path=/etc/init.d/monit state=absent
   - name: install systemd service
     copy: src=~/dev/embedded_debian/apps/monit/monit.service dest=/lib/systemd/system/monit.service owner=root group=root mode=0755
-    notify:
-    - restart monit
   - name: install rc script
     copy: src=~/dev/embedded_debian/apps/monit/monitrc dest=/etc/monit/monitrc owner=root group=root mode=0600
-    notify:
-    - restart monit
   - name: Remove logrotate config
     file: path=/etc/logrotate.d/monit state=absent
   - copy: src=~/dev/embedded_debian/apps/monit/conf.d.dist/system.conf dest=/etc/monit/conf.d/system.conf owner=root group=root mode=0644
+  - name: Configure host system monitoring
+    lineinfile: dest=/etc/monit/conf.d/system.conf regexp='^check system' line='check system {{ansible_fqdn}}'
   - copy: src=~/dev/embedded_debian/apps/monit/conf.d.dist/ntp.conf dest=/etc/monit/conf.d/ntp.conf owner=root group=root mode=0644
-  - copy: src=~/dev/embedded_debian/apps/monit/conf.d.dist/postfix.conf dest=/etc/monit/conf.d/postfix.conf owner=root group=root mode=0644
   - copy: src=~/dev/embedded_debian/apps/monit/conf.d.dist/sshd.conf dest=/etc/monit/conf.d/sshd.conf owner=root group=root mode=0644
   - systemd: name=monit enabled=yes
   - name: Mount ro
     shell: /opt/bin/mount-ro
-
-  handlers:
-    - name: restart monit
-      systemd: state=restarted daemon_reload=yes name=monit
+  - name: restart monit
+    systemd: state=restarted daemon_reload=yes name=monit
 
 
 
