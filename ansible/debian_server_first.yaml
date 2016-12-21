@@ -1,0 +1,9 @@
+---
+# Install public key, Edit /etc/hostname and /etc/hosts before running this script
+- hosts: debian_servers
+  remote_user: root
+  tasks:
+  - shell: /bin/rm -rf /etc/ssh/ssh_host_*
+  - command: dpkg-reconfigure --frontend noninteractive openssh-server
+  - name: Schedule reboot in 1 minute to apply hostname etc.
+    command: /sbin/shutdown -r 1

@@ -1,0 +1,30 @@
+# Remove existing zabbix and install snmpd
+---
+- hosts: debian_servers,embedded
+  remote_user: root
+  tasks:
+  - name: Mount rw
+    shell: /opt/bin/mount-rw -n
+    ignore_errors: yes
+  - name: Install packages
+    apt: "name={{ item }} state=installed update_cache=yes"
+    with_items:
+      - snmpd
+      - curl
+  - name: Remove packages
+    apt: "name={{ item }} state=absent"
+    with_items:
+      - zabbix-agent
+  - name: Download distro script
+    get_url:
+      url: "https://raw.githubusercontent.com/librenms/librenms-agent/master/snmp/distro"
+      dest: "/usr/bin/distro"
+      mode: 0755
+  - name: Install snmpd config
+    copy: src=~/dev/embedded_debian/fs/etc/snmp/snmpd.conf dest=/etc/snmp/snmpd.conf owner=root group=root mode=0755
+  - name: Mount ro
+    shell: /opt/bin/mount-ro
+    ignore_errors: yes
+  - name: Restart snmpd
+    systemd: state=restarted daemon_reload=yes name=snmpd enabled=yes
+

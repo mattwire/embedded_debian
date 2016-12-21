@@ -1,0 +1,2 @@
+deb http://mirrordirector.raspbian.org/raspbian jessie main contrib non-free firmware
+deb http://archive.raspberrypi.org/debian jessie main

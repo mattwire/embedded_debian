@@ -1,4 +1,4 @@
-check process nodered with match node-red
+check process nodered with match "^node-red"
    start program "/bin/systemctl start nodered"
    stop program "/bin/systemctl stop nodered"
    if failed port 1880 type tcp then restart
