@@ -1,0 +1,2 @@
+#!/bin/sh
+monit summary | egrep "System|Process|File" | egrep -v "Running|Accessible" | mail -E'set nonullbody' -s "m@`hostname` problems" root

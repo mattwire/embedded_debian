@@ -1,0 +1,17 @@
+# http://nlug.ml1.co.uk/2016/03/resilient-ssh-with-autossh-andor-systemd/5148
+[Unit]
+ Description=AutoSSH service for a reverse tunnel from foo to bar
+ After=network.target
+
+[Service]
+ User=foo
+ Environment="AUTOSSH_GATETIME=0"
+ ExecStart=/usr/bin/autossh -i /root/.ssh/zabbixagent_id_rsa -Nf -M 20550 -L 10150:localhost:10050 -R 20051:localhost:10051 zabbixagent@aws1.mjwconsult.co.uk" #zeus
+ Restart=always
+ RestartSec=60
+
+[Install]
+ WantedBy=multi-user.target
+
+
+

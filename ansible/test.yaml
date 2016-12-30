@@ -1,0 +1,8 @@
+---
+- hosts: embedded,debian_servers
+  remote_user: root
+  roles:
+    - monit
+#    - postfix
+#    - zabbix-agent
+

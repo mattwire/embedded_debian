@@ -23,12 +23,11 @@ NAME=Postfix
 TZ=
 unset TZ
 
-if [ ! -d /tmp/postfix ]; then
-  mkdir -p /tmp/postfix
+if [ ! -d /tmp/postfix/mail ]; then
+  mkdir -p /tmp/postfix/mail
   cp -a /var/lib/postfix.dist /tmp/postfix/lib
   cp -a /var/spool/postfix.dist /tmp/postfix/spool
-  cp -a /var/mail.dist /tmp/mail
-  chown postfix:postfix /tmp/postfix -R
+  chown postfix:postfix /tmp/postfix/mail -R
 fi
 
 # Defaults - don't touch, edit /etc/default/postfix
