@@ -1,0 +1,4 @@
+---
+# Enable bash completion
+- name: install bash rc script
+  copy: src=bash.bashrc dest=/etc/bash.bashrc owner=root group=root mode=0644

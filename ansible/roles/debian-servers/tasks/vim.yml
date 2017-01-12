@@ -1,0 +1,6 @@
+---
+# Setup vim
+- name: Syntax on
+  lineinfile: dest=/etc/vim/vimrc regexp='"syntax on' line='syntax on'
+- name: Highlighting
+  lineinfile: dest=/etc/vim/vimrc regexp='"set background=dark' line='set background=dark'

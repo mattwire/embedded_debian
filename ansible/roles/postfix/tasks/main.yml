@@ -12,8 +12,11 @@
   ignore_errors: yes
   shell: /opt/bin/mount-rw -n
 # Cleanup old postfix install
-- name: remove postfix
-  apt: name=postfix state=absent purge=yes
+#- name: remove postfix
+#  apt: name=postfix state=absent purge=yes
+#  ignore_errors: yes
+- name: Stop postfix
+  systemd: state=stopped name=postfix
   ignore_errors: yes
 - name: remove nullmailer
   apt: name=nullmailer state=absent purge=yes
@@ -31,10 +34,11 @@
   shell: rm -rf /tmp/postfix
   ignore_errors: yes
 
-- name: Install postfix.
+- name: Install postfix
+  shell: aptitude reinstall -y postfix
+- name: Install mailutils.
   apt: "name={{ item }} state=installed update_cache=yes"
   with_items:
-    - postfix
     - mailutils
 - name: Setup mailname
   shell: /bin/hostname > /etc/mailname

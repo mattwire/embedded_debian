@@ -1,0 +1,7 @@
+---
+- include: apt.yml
+- include: standard_packages.yml
+- include: vim.yml
+- include: bash.yml
+- include: ssh.yml
+

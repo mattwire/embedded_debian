@@ -1,0 +1,11 @@
+---
+# Setup apt
+- name: Install apt sources.list
+  copy: src=sources.list dest=/etc/apt/sources.list owner=root group=root mode=0644
+- name: apt-get upgrade
+  apt: update_cache=yes upgrade=full
+- name: Install packages.
+  apt: "name={{ item }} state=installed"
+  with_items:
+    - unattended-upgrades
+- copy: src=50unattended-upgrades dest=/etc/apt/apt.conf.d/50unattended-upgrades owner=root group=root mode=0755
