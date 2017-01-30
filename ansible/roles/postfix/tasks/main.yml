@@ -35,7 +35,7 @@
   ignore_errors: yes
 
 - name: Install postfix
-  shell: aptitude reinstall -y postfix
+  shell: DEBIAN_FRONTEND=noninteractive aptitude reinstall -y postfix
 - name: Install mailutils.
   apt: "name={{ item }} state=installed update_cache=yes"
   with_items:
