@@ -1,0 +1,62 @@
+# TODO:
+# This needs to detect that we are running new nodered and not re-do an apt/update
+---
+- name: Mount rw
+  shell: /opt/bin/mount-rw -n
+- name: Ensure build dependencies are installed.
+  apt: "name={{ item }} state=installed"
+  with_items:
+    - build-essential
+    - gcc
+    - make
+    - sudo # Needed by update-nodejs-and-nodered script
+- name: Download update-nodejs-and-nodered
+  get_url:
+    url: "https://raw.githubusercontent.com/node-red/raspbian-deb-package/master/resources/update-nodejs-and-nodered"
+    dest: "{{ ansible_user_dir }}/update-nodejs-and-nodered"
+    mode: 0755
+- name: Disable monit for nodered
+  ignore_errors: yes
+  shell: /usr/bin/monit unmonitor nodered
+- name: Update nodejs and nodered
+  shell: yes | {{ ansible_user_dir }}/update-nodejs-and-nodered
+- name: Download nodered.service file.
+  copy: src=nodered.service dest=/lib/systemd/system/nodered.service owner=root group=root mode=0755
+- name: Download node-red-start.
+  get_url:
+    url: "https://raw.githubusercontent.com/node-red/raspbian-deb-package/master/resources/node-red-start"
+    dest: "/usr/bin/node-red-start"
+    mode: 0755
+- name: Download node-red-stop.
+  get_url:
+    url: "https://raw.githubusercontent.com/node-red/raspbian-deb-package/master/resources/node-red-stop"
+    dest: "/usr/bin/node-red-stop"
+    mode: 0755
+- name: Download bcm2835 library.
+  get_url:
+    url: "http://www.airspayce.com/mikem/bcm2835/bcm2835-1.50.tar.gz"
+    dest: "{{ ansible_user_dir }}/bcm2835-1.50.tar.gz"
+- name: Expand bcm2835 archive.
+  unarchive:
+    src: "{{ ansible_user_dir }}/bcm2835-1.50.tar.gz"
+    dest: "{{ ansible_user_dir }}"
+    creates: "{{ ansible_user_dir }}/bcm2835-1.50/README"
+    remote_src: yes
+- name: Build and install bcm2835 lib
+  shell: cd {{ ansible_user_dir }}/bcm2835-1.50 && ./configure && make && make check && make install 
+- npm: name=node-dht-sensor path=/usr/lib/node_modules/node-red/node_modules
+- npm: name=node-red-contrib-dht-sensor path=/usr/lib/node_modules/node-red/node_modules
+- npm: name=node-red-node-emoncms path=/usr/lib/node_modules/node-red/node_modules
+- npm: name=node-red-contrib-collector path=/usr/lib/node_modules/node-red/node_modules
+- npm: name=node-red-node-pushover path=/usr/lib/node_modules/node-red/node_modules
+- name: restart nodered
+  systemd: state=restarted daemon_reload=yes name=nodered enabled=yes
+- name: Add monit config
+  copy: src=nodered.monit dest=/etc/monit/conf.d/nodered.conf owner=root group=root mode=0644
+- name: reload monit
+  shell: /usr/bin/monit reload
+- name: Enable monit for nodered
+  shell: /usr/bin/monit monitor nodered
+- name: Mount ro
+  shell: /opt/bin/mount-ro
+

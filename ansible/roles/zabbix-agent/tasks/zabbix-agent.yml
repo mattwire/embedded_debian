@@ -1,0 +1,56 @@
+# Install zabbix agent, remove snmpd
+---
+- name: Mount rw
+  shell: /opt/bin/mount-rw -n
+  ignore_errors: yes
+# http://repo.zabbix.com/zabbix/3.2/debian/pool/main/z/zabbix-release/
+- name: Download zabbix repo setup
+  get_url:
+    url: "http://omv/shares/iso/software/zabbix-release_3.2-1+jessie_all.deb"
+    dest: "{{ ansible_user_dir }}/zabbix-release_3.2-1+jessie_all.deb"
+    tmp_dest: "{{ ansible_user_dir }}"
+  when: ansible_architecture == 'i386' or ansible_architecture == 'x86_64'
+- name: Install zabbix repo setup
+  apt: deb="{{ ansible_user_dir }}/zabbix-release_3.2-1+jessie_all.deb"
+  when: ansible_architecture == 'i386' or ansible_architecture == 'x86_64'
+- name: Remove packages
+  apt: "name={{ item }} state=absent"
+  with_items:
+    - zabbix-agent
+- name: Install packages
+  apt: "name={{ item }} state=installed update_cache=yes"
+  with_items:
+    - zabbix-agent
+- name: Remove packages
+  apt: "name={{ item }} state=absent"
+  with_items:
+    - snmpd
+# zabbix_agentd.conf (for 2.4)
+- template:
+    src: zabbix_agentd.conf.j2
+    dest: /etc/zabbix/zabbix_agentd.conf
+    owner: root
+    group: root
+    mode: 0644
+# zabbix_agentd.conf 3.2 - bit rubbish, we install 2.4 then overwrite!
+- template:
+    src: zabbix_agentd.conf-3.2.j2
+    dest: /etc/zabbix/zabbix_agentd.conf
+    owner: root
+    group: root
+    mode: 0644
+  when: ansible_architecture == 'i386' or ansible_architecture == 'x86_64'
+# zabbix_agentd.conf 3.2 for server (needs 127.0.0.1)
+- template:
+    src: zabbix_agentd.conf-3.2-zeus.j2
+    dest: /etc/zabbix/zabbix_agentd.conf
+    owner: root
+    group: root
+    mode: 0644
+  when: ansible_fqdn == 'zeus.mrwire.co.uk'
+- name: Mount ro
+  shell: /opt/bin/mount-ro
+  ignore_errors: yes
+- name: Restart zabbix-agent
+  systemd: state=restarted daemon_reload=yes name=zabbix-agent enabled=yes
+

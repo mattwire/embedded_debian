@@ -1,0 +1,11 @@
+---
+- hosts: emon
+  remote_user: root
+  roles:
+#    - pi-base
+#    - debian-servers
+#    - embedded-base
+#    - ntp
+#    - monit
+    - node-red
+    - owfs

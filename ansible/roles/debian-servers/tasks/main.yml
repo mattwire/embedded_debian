@@ -1,6 +1,7 @@
 ---
-- include: apt.yml
 - include: standard_packages.yml
+- include: acpi.yml
+  when: "'pi' not in group_names"
 - include: vim.yml
 - include: bash.yml
 - include: ssh.yml

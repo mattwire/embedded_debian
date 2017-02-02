@@ -1,0 +1,16 @@
+APT::Periodic::Enable "1";
+APT::Periodic::Update-Package-Lists "1";
+APT::Periodic::AutocleanInterval "7";
+APT::Periodic::Unattended-Upgrade "1";
+Unattended-Upgrade::Mail "root";
+
+// Automatically upgrade packages from these (origin, archive) pairs
+Unattended-Upgrade::Allowed-Origins {
+    "${distro_id} stable";
+    "${distro_id} ${distro_codename}-security";
+    "${distro_id} testing";
+};
+
+// Automatically reboot *WITHOUT CONFIRMATION* if a
+// the file /var/run/reboot-required is found after the upgrade
+Unattended-Upgrade::Automatic-Reboot "false";

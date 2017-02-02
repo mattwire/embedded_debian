@@ -4,8 +4,5 @@
   apt: "name={{ item }} state=installed"
   with_items:
     - vim
-    - acpi
-    - acpi-support-base
     - bash-completion
-- shell: /bin/rm -f /etc/acpi/event/powerbtn
 

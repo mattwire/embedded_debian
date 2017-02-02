@@ -1,0 +1,9 @@
+---
+# Install standard packages
+- name: Install acpi packages.
+  apt: "name={{ item }} state=installed"
+  with_items:
+    - acpi
+    - acpi-support-base
+- shell: /bin/rm -f /etc/acpi/event/powerbtn
+
