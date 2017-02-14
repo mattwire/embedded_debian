@@ -35,7 +35,8 @@
   ignore_errors: yes
 
 - name: Install postfix
-  shell: DEBIAN_FRONTEND=noninteractive aptitude reinstall -y postfix
+  shell: DEBIAN_FRONTEND=noninteractive apt-get -y install --reinstall postfix
+  ignore_errors: yes
 - name: Install mailutils.
   apt: "name={{ item }} state=installed update_cache=yes"
   with_items:
@@ -101,7 +102,7 @@
   systemd: state=restarted name=monit
 - name: Send test email
   shell: mail -s "test from {{ ansible_fqdn }}" root < /etc/motd
-- name: Mount ro (You need to check /boot/config.txt and then reboot)
+- name: Mount ro
   ignore_errors: yes
   shell: /opt/bin/mount-ro
 
