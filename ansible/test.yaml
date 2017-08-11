@@ -1,11 +1,14 @@
 ---
 - hosts: embedded,debian_servers
-  remote_user: root
+  #  remote_user: admin
+   remote_user: root
+#  become: True
+#  become_user: root
   roles:
-    - apt
-    - debian-servers
-    - ntp
+ #   - apt
+ #   - debian-servers
+ #   - ntp
     - monit
     - postfix
-    - zabbix-agent
-
+ #   - zabbix-agent
+   #- node-red

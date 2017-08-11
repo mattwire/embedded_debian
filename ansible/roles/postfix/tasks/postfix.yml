@@ -37,10 +37,11 @@
 - name: Install postfix
   shell: DEBIAN_FRONTEND=noninteractive apt-get -y install --reinstall postfix
   ignore_errors: yes
-- name: Install mailutils.
+- name: Install mailutils/libsasl2-modules.
   apt: "name={{ item }} state=installed update_cache=yes"
   with_items:
     - mailutils
+    - libsasl2-modules
 - name: Setup mailname
   shell: /bin/hostname > /etc/mailname
 - name: stop postfix
