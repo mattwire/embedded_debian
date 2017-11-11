@@ -1,4 +1,4 @@
-check process openhab2 matching "/usr/share/openhab2/runtime/bin/karaf server"
+check process openhab-custom matching "/usr/share/openhab2/runtime/bin/karaf server"
    start program "/bin/systemctl start openhab-custom"
    stop program "/bin/systemctl stop openhab-custom"
    if failed port 8080 type tcp then restart
