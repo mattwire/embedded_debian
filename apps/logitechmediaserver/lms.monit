@@ -1,0 +1,5 @@
+check process logitechmediaserver matching "/usr/bin/perl /usr/sbin/squeezeboxserver"
+   start program "/bin/systemctl start logitechmediaserver"
+   stop program "/bin/systemctl stop logitechmediaserver"
+   if failed port 9000 type tcp then restart
+   if cpu > 50% for 10 cycles then restart
