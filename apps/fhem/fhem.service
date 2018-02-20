@@ -1,0 +1,24 @@
+[Unit]
+Description=FHEM service
+After=network.target
+Wants=network.target
+
+[Service]
+Type=forking
+User=fhem
+Group=dialout
+WorkingDirectory=/opt/fhem
+PermissionsStartOnly=true
+ExecStartPre=/bin/sh -c '/bin/mountpoint -q /opt/fhem/log || /bin/mount -t tmpfs tmpfs /opt/fhem/log'
+ExecStartPre=/bin/sh -c '/bin/cp -a /mnt/store/fhem/log/* /opt/fhem/log'
+ExecStart=/usr/bin/perl fhem.pl config/fhem.cfg
+
+ExecStop=/usr/bin/perl fhem.pl 7072 "shutdown"
+ExecStop=/bin/sh -c '/bin/cp -a /opt/fhem/log/* /mnt/store/fhem/log'
+
+RestartSec=5
+Restart=on-failure
+TimeoutStopSec=30
+
+[Install]
+WantedBy=multi-user.target

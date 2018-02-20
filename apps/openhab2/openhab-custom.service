@@ -1,0 +1,39 @@
+[Unit]
+Description=openHAB 2 - custom
+Documentation=http://docs.openhab.org
+Documentation=https://community.openhab.org
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Environment=OPENHAB_STARTMODE=daemon
+EnvironmentFile=/etc/default/openhab2
+User=openhab
+Group=openhab
+
+PermissionsStartOnly=true
+#ExecStartPre=/usr/share/openhab/bin/setpermissions.sh
+ExecStartPre=/bin/mkdir -p /var/log/openhab2
+ExecStartPre=/bin/chown -R openhab:openhab /var/log/openhab2/
+ExecStartPre=/bin/sh -c '/bin/mountpoint -q /etc/openhab2/userdata/cache || /bin/mount -t tmpfs tmpfs /etc/openhab2/userdata/cache'
+ExecStartPre=/bin/sh -c '/bin/mountpoint -q /etc/openhab2/userdata/tmp || /bin/mount -t tmpfs tmpfs /etc/openhab2/userdata/tmp'
+ExecStartPre=/bin/sh -c '/bin/mountpoint -q /etc/openhab2/userdata/persistence || /bin/mount -t tmpfs tmpfs /etc/openhab2/userdata/persistence'
+ExecStartPre=/bin/sh -c '/bin/cp -a /mnt/store/openhab2/persistence/* /etc/openhab2/userdata/persistence'
+# Run the setcap line once in rw mode
+#ExecStartPre=/bin/sh -c 'setcap "cap_net_raw,cap_net_admin=+eip cap_net_bind_service=+ep" $(realpath /usr/bin/java)'
+
+WorkingDirectory=/usr/share/openhab2
+ExecStart=/usr/share/openhab2/runtime/bin/karaf $OPENHAB_STARTMODE
+
+ExecStop=/usr/share/openhab2/runtime/bin/karaf stop
+ExecStop=/bin/sh -c '/bin/cp -a /etc/openhab2/userdata/persistence/* /mnt/store/openhab2/persistence'
+
+SuccessExitStatus=0 143
+RestartSec=5
+Restart=on-failure
+TimeoutStopSec=120
+
+LimitNOFILE=102642
+
+[Install]
+WantedBy=multi-user.target
