@@ -1,0 +1,7 @@
+SLMAC="-m `/bin/cat /sys/class/net/eth0/address`"
+SLDEVICE="-o sysdefault:CARD=ALSA"
+SLNAME="-n Lounge"
+SLBUFFER="-a 160:4:32:0"
+SLPRIO="-p 90"
+#SLLOG="-f /var/log/squeezelite.log"
+#SBHOST="192.168.1.1"

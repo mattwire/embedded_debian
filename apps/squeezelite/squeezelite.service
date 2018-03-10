@@ -1,0 +1,12 @@
+[Unit]
+Description=squeezelite
+After=network.target
+
+[Service]
+Type=simple
+EnvironmentFile=/etc/default/squeezelite
+ExecStart=/bin/bash -c "/opt/squeezelite/squeezelite ${SLDEVICE} ${SLNAME} ${SLBUFFER} ${SLPRIO} ${SLLOG} ${SBHOST}"
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
