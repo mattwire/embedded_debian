@@ -15,3 +15,5 @@ SUBSYSTEM=="tty", ACTION=="add", ATTRS{idVendor}=="0403", ATTRS{idProduct}=="600
 
 # Telegesis (Qivicon) USB Zigbee dongle
 SUBSYSTEM=="tty", ACTION=="add", ATTRS{idVendor}=="10c4", ATTRS{idProduct}=="89fb", SYMLINK+="zigbee"
+# Arduino 2560 Mega (rflink)
+SUBSYSTEM=="tty", ACTION=="add", ATTRS{idVendor}=="2341", ATTRS{idProduct}=="0042", SYMLINK+="rflink"

@@ -13,9 +13,11 @@ Group=openhab
 
 PermissionsStartOnly=true
 #ExecStartPre=/usr/share/openhab/bin/setpermissions.sh
+ExecStartPre=/bin/sh -c '/sbin/modprobe cp210x && /bin/echo 10c4 89fb > /sys/bus/usb-serial/drivers/cp210x/new_id'
 ExecStartPre=/bin/mkdir -p /var/log/openhab2
 ExecStartPre=/bin/chown -R openhab:openhab /var/log/openhab2/
-ExecStartPre=/bin/sh -c '/bin/mountpoint -q /etc/openhab2/userdata/cache || /bin/mount -t tmpfs tmpfs /etc/openhab2/userdata/cache'
+#ExecStartPre=/bin/sh -c '/bin/mountpoint -q /etc/openhab2/userdata/cache || /bin/mount -t tmpfs tmpfs /etc/openhab2/userdata/cache'
+ExecStartPre=/bin/sh -c '/bin/mountpoint -q /etc/openhab2/userdata/cache || /bin/mount --bind /mnt/store/openhab2/cache /etc/openhab2/userdata/cache'
 ExecStartPre=/bin/sh -c '/bin/mountpoint -q /etc/openhab2/userdata/tmp || /bin/mount -t tmpfs tmpfs /etc/openhab2/userdata/tmp'
 ExecStartPre=/bin/sh -c '/bin/mountpoint -q /etc/openhab2/userdata/persistence || /bin/mount -t tmpfs tmpfs /etc/openhab2/userdata/persistence'
 ExecStartPre=/bin/sh -c '/bin/cp -a /mnt/store/openhab2/persistence/* /etc/openhab2/userdata/persistence'
